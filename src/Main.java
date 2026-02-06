@@ -147,19 +147,5 @@ public class Main {
         System.out.println("Number of two pair hands: " + numTwo);
         System.out.println("Number of one pair hands: " + numOne);
         System.out.println("Number of high card hands: " + numHigh);
-
-        // rankings for each hand in the handtype array (higher number = better ranking)
-        // 7 = fivekind
-        // 6 = fourkind
-        // 5 = fullhouse
-        // 4 = threekind
-        // 3 = twokind
-        // 2 = onekind
-        // 1 = highcard
-
-        System.out.println(Arrays.toString(hands));
-        System.out.println(Arrays.toString(handType));
-        Rank poker = new Rank(hands, handType);
-        poker.RankHands();
     }
 }
