@@ -29,7 +29,7 @@ public class Main {
         int numHigh = 0;
 
         int[] handType = new int[hands.length];
-        int [] bidList = new int[hands.length];
+        int[] bidList = new int[hands.length];
         for (int i = 0; i < hands.length; i++) {
             String[] handNum = hands[i].split(",");
             bidList[i] = Integer.parseInt(handNum[4].substring(handNum[4].indexOf("|") + 1));
@@ -45,7 +45,7 @@ public class Main {
             String[] unequalArrayIteration = unequalString.split("\n");
             if (unequal == 0) {
                 numFive++;
-                handType[i] = 7;
+                handType[i] = 8;
             } else if (unequal == 1) {
                 numFour++;
                 handType[i] = 6;
@@ -147,5 +147,23 @@ public class Main {
         System.out.println("Number of two pair hands: " + numTwo);
         System.out.println("Number of one pair hands: " + numOne);
         System.out.println("Number of high card hands: " + numHigh);
+
+        Rank poker = new Rank(hands, handType);
+        // original hands are not changed
+        String[] rankedHands = poker.RankHands();
+        int[] bidListRanked = new int[rankedHands.length];
+        for (int i = 0; i < rankedHands.length; i++) {
+            String[] handNumRanked = rankedHands[i].split(",");
+            String a = handNumRanked[4].substring(handNumRanked[4].indexOf("|") + 1);
+            if (a.contains("v")){
+                a = a.replace("v", "10");
+            }
+            bidListRanked[i] = Integer.parseInt(a);
+        }
+        int bidSum = 0;
+        for (int k = 0; k < bidListRanked.length; k++){
+            bidSum = bidSum + (bidListRanked[k] * (k+1));
+        }
+        System.out.println("Total bid value: " + bidSum);
     }
 }
