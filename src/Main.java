@@ -18,6 +18,16 @@ public class Main {
             System.out.println("File not found");
         }
 
+        boolean isWild;
+        Scanner q = new Scanner(System.in);
+        System.out.println("Do you want jacks to be wild? (type y or n) ");
+        if (q.nextLine().equals("y")){
+            isWild = true;
+        }
+        else{
+            isWild = false;
+        }
+
         String[] hands = fileData.split("\n");
 
         int numFive = 0;
