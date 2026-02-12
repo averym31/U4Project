@@ -45,7 +45,7 @@ public class Main {
             String[] unequalArrayIteration = unequalString.split("\n");
             if (unequal == 0) {
                 numFive++;
-                handType[i] = 8;
+                handType[i] = 7;
             } else if (unequal == 1) {
                 numFour++;
                 handType[i] = 6;
