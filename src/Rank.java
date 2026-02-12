@@ -9,21 +9,37 @@ public class Rank {
         this.handType = handType;
     }
 
-    public void RankHands(){
-        int[] ranking = new int[hands.length];
+    public String[] RankHands(){
         int count = 0;
-        int alrRanked = 0;
+        int alrcount = 0;
         String eString = "";
-        for (int i = 0; i < hands.length; i++){
-            if (handType[i] == 1){
-                count++;
-                eString += hands[i] + "\n";
+        String[] equalString = new String[hands.length];
+        for (int j = 0; j < 9; j++) {
+            for (int i = 0; i < hands.length; i++) {
+                if (handType[i] == j) {
+                    count++;
+                    eString += hands[i] + "\n";
+                }
             }
+            equalString = eString.split("\n");
+            for (int p = 0; p < equalString.length; p++) {
+                equalString[p] = equalString[p].replace("10","v");
+                equalString[p] = equalString[p].replace("Jack","w");
+                equalString[p] = equalString[p].replace("Queen","x");
+                equalString[p] = equalString[p].replace("King","y");
+                equalString[p] = equalString[p].replace("Ace","z");
+            }
+            String[] handTypeSeperate = new String[count-alrcount];
+            for(int k = 0; k < handTypeSeperate.length; k++){
+                handTypeSeperate[k] = equalString[k+alrcount];
+            }
+            Arrays.sort(handTypeSeperate);
+            for(int m = 0; m < handTypeSeperate.length; m++){
+                equalString[m+alrcount] = "";
+                equalString[m+alrcount] = handTypeSeperate[m];
+            }
+            alrcount = count;
         }
-        if (count > 1){
-            String[] equalString = eString.split("\n");
-            System.out.println(Arrays.toString(equalString));
-        }
-        System.out.println(Arrays.toString(ranking));
+        return equalString;
     }
 }
