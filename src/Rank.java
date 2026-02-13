@@ -37,7 +37,7 @@ public class Rank {
                 equalString[p] = equalString[p].replace("Ace","z");
             }
             String[] handTypeSeparate = new String[count-alrcount];
-            for(int k = 0; k < handTypeSeparate.length; k++){
+            for (int k = 0; k < handTypeSeparate.length; k++){
                 handTypeSeparate[k] = equalString[k+alrcount];
             }
             Arrays.sort(handTypeSeparate);
@@ -46,7 +46,6 @@ public class Rank {
                 equalString[m+alrcount] = handTypeSeparate[m];
             }
             alrcount = count;
-            System.out.println(Arrays.toString(equalString));
         }
         return equalString;
     }
