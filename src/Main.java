@@ -18,17 +18,19 @@ public class Main {
             System.out.println("File not found");
         }
 
+        String[] hands = fileData.split("\n");
+
         boolean isWild;
         Scanner q = new Scanner(System.in);
-        System.out.println("Do you want jacks to be wild? (type y or n) ");
+        System.out.print("Do you want jacks to be wild? (type y or n): ");
         if (q.nextLine().equals("y")){
             isWild = true;
+            System.out.println("Jacks Wild rule activated.");
         }
         else{
             isWild = false;
+            System.out.println("Jacks Wild rule will not be used.");
         }
-
-        String[] hands = fileData.split("\n");
 
         int numFive = 0;
         int numFour = 0;
@@ -38,11 +40,10 @@ public class Main {
         int numOne = 0;
         int numHigh = 0;
 
+        // determines the hand type for each hand
         int[] handType = new int[hands.length];
-        int[] bidList = new int[hands.length];
         for (int i = 0; i < hands.length; i++) {
             String[] handNum = hands[i].split(",");
-            bidList[i] = Integer.parseInt(handNum[4].substring(handNum[4].indexOf("|") + 1));
             handNum[4] = handNum[4].substring(0, handNum[4].indexOf("|"));
             String unequalString = "";
             int unequal = 0;
@@ -150,6 +151,8 @@ public class Main {
                 }
             }
         }
+
+        // print statements do not change based on the Jack rule
         System.out.println("Number of five of a kind hands: " + numFive);
         System.out.println("Number of four of a kind hands: " + numFour);
         System.out.println("Number of full house hands: " + numFull);
@@ -157,10 +160,24 @@ public class Main {
         System.out.println("Number of two pair hands: " + numTwo);
         System.out.println("Number of one pair hands: " + numOne);
         System.out.println("Number of high card hands: " + numHigh);
-
+        // checks for if the Jack rule applies, and changes the handType array, not the actual hands themselves
+        if(isWild){
+            for (int i = 0; i < hands.length; i++) {
+                String[] handNum = hands[i].split(",");
+                handNum[4] = handNum[4].substring(0, handNum[4].indexOf("|"));
+                int equal = 0;
+                for (String string : handNum) {
+                    if (string.equals("Jack")){
+                        equal++;
+                    }
+                }
+                handType[i] = handType[i] + equal;
+            }
+        }
         Rank poker = new Rank(hands, handType);
-        // original hands are not changed
-        String[] rankedHands = poker.RankHands();
+        // Original hands are not changed, Jacks still act as Jacks (weakest if the Jack Wild rule is activated)
+        String[] rankedHands = poker.RankHands(isWild);
+        // Extracts the bid value from the array and prints the total bid value based on the rankings
         int[] bidListRanked = new int[rankedHands.length];
         for (int i = 0; i < rankedHands.length; i++) {
             String[] handNumRanked = rankedHands[i].split(",");
@@ -174,6 +191,11 @@ public class Main {
         for (int k = 0; k < bidListRanked.length; k++){
             bidSum = bidSum + (bidListRanked[k] * (k+1));
         }
-        System.out.println("Total bid value: " + bidSum);
+        if(isWild){
+            System.out.println("Total bid value (w/ Jacks Wild): " + bidSum);
+        }
+        else{
+            System.out.println("Total bid value: " + bidSum);
+        }
     }
 }
